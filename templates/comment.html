@@ -1,0 +1,28 @@
+{% include 'header.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+<div class="container">
+    <div class="row post">
+        <p class="post-item">{{ memory.title}}</p>
+        <p class="post-item"><span>Posted by:</span> {{ memory.user.username }}</p>
+        <p class="post-item"><span>Type:</span> {{ memory.type }}</p>
+        <p class="post-item">{{ memory.description }}</p>
+        <p class="post-item"><span>Posted on: </span>{{ memory.created }}</p>
+    </div>
+</div>
+<div class="container">
+    <div class="row comment-section">
+        {% for comment in memory.comments: %}
+            <div class="thin-line"></div>
+            <p class="comment-p">{{ comment.comment }}</p>
+            <span class="comment-span">         {{ comment.user.username }} {{comment.created}}</span>
+            <div class="thin-line"></div>
+        {% endfor %}
+    </div>
+    {% if current_user.is_authenticated: %}
+        <div class="row comment-form">
+            {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        </div>
+    {% endif %}
+</div>
+
+{% include 'footer.html' %}
